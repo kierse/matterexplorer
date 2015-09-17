@@ -1,10 +1,15 @@
 package com.pissiphany.matterexplorer.model;
 
+import android.database.Cursor;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.pissiphany.matterexplorer.annotation.AutoGson;
+import com.pissiphany.matterexplorer.provider.contract.MatterContract;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import auto.parcel.AutoParcel;
@@ -15,6 +20,8 @@ import auto.parcel.AutoParcel;
 @AutoParcel
 @AutoGson(autoValueClass = AutoParcel_Matter.class)
 public abstract class Matter implements Parcelable {
+    private static final String ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+
     @Nullable public abstract Long getId();
     @Nullable public abstract Date getCreatedAt();
     @Nullable public abstract Date getUpdatedAt();
@@ -65,5 +72,48 @@ public abstract class Matter implements Parcelable {
         public abstract Builder setCloseDate(Date closeDate);
 
         public abstract Matter build();
+
+        public Builder fromCursor(@NonNull Cursor cursor) {
+            return fromCursor(cursor, "");
+        }
+
+        public Builder fromCursor(@NonNull Cursor cursor, @NonNull String prefix) {
+            int index;
+
+            // ID
+            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.ID)) > 0) {
+                setId(cursor.getLong(index));
+            }
+
+            // DESCRIPTION
+            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.DESCRIPTION)) > 0) {
+                setDescription(cursor.getString(index));
+            }
+
+            // STATUS
+            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.STATUS)) > 0) {
+                setStatus(cursor.getString(index));
+            }
+
+            // OPEN_DATE
+            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.OPEN_DATE)) > 0) {
+                try {
+                    new SimpleDateFormat();
+                    setOpenDate(new SimpleDateFormat(ISO_8601).parse(cursor.getString(index)));
+                } catch (ParseException e) { }
+            }
+
+            // BILLABLE
+            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.BILLABLE)) > 0) {
+                setBillable(cursor.getInt(index) == 1);
+            }
+
+            return this;
+        }
+
+        private int getColumnIndex(Cursor cursor, String prefix, @NonNull String column) {
+            if (!prefix.isEmpty()) prefix += "_";
+            return cursor.getColumnIndex(prefix + column);
+        }
     }
 }
