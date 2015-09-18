@@ -16,5 +16,5 @@ import java.lang.annotation.Target;
 public @interface AutoGson {
     // A reference to the AutoValue-generated class (e.g. AutoValue_MyClass). This is
     // necessary to handle obfuscation of the class names.
-    Class autoValueClass();
+    Class autoParcelClass();
 }

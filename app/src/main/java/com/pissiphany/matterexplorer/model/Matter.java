@@ -18,7 +18,7 @@ import auto.parcel.AutoParcel;
  * Created by kierse on 15-09-08.
  */
 @AutoParcel
-@AutoGson(autoValueClass = AutoParcel_Matter.class)
+@AutoGson(autoParcelClass = AutoParcel_Matter.class)
 public abstract class Matter implements Parcelable {
     private static final String ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
