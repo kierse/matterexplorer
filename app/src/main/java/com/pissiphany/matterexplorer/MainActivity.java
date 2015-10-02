@@ -5,10 +5,12 @@ import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.volley.Request;
 import com.pissiphany.matterexplorer.di.component.ActivityComponent;
 import com.pissiphany.matterexplorer.di.HasComponent;
 import com.pissiphany.matterexplorer.di.component.DaggerActivityComponent;
-import com.pissiphany.matterexplorer.volley.event.FetchAndSaveEvent;
+import com.pissiphany.matterexplorer.volley.event.GetAndSaveEvent;
+import com.pissiphany.matterexplorer.volley.response.themis.v2.MatterResponse;
 
 import javax.inject.Inject;
 
@@ -38,7 +40,11 @@ public class MainActivity extends BaseActivity implements HasComponent<ActivityC
         super.onResume();
 
         if (!mFetchData) {
-            sBus.send(new FetchAndSaveEvent());
+            sBus.send(new GetAndSaveEvent(
+                    MatterResponse.class,
+                    null, // TODO get Matters API Uri
+                    Request.Priority.IMMEDIATE
+            ));
         }
     }
 
