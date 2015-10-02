@@ -9,6 +9,7 @@ import com.android.volley.Request;
 import com.pissiphany.matterexplorer.di.component.ActivityComponent;
 import com.pissiphany.matterexplorer.di.HasComponent;
 import com.pissiphany.matterexplorer.di.component.DaggerActivityComponent;
+import com.pissiphany.matterexplorer.network.api.themis.contract.ThemisContractV2;
 import com.pissiphany.matterexplorer.network.api.themis.response.MatterResponseV2;
 import com.pissiphany.matterexplorer.network.event.GetAndSaveEvent;
 
@@ -42,7 +43,7 @@ public class MainActivity extends BaseActivity implements HasComponent<ActivityC
         if (!mFetchData) {
             sBus.send(new GetAndSaveEvent(
                     MatterResponseV2.class,
-                    null, // TODO get Matters API Uri
+                    ThemisContractV2.getUriForEndpoint(ThemisContractV2.Endpoints.MATTERS),
                     Request.Priority.IMMEDIATE
             ));
         }
