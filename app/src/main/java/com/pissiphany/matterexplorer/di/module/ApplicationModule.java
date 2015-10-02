@@ -40,8 +40,8 @@ public final class ApplicationModule {
 
     @Provides
     @Singleton
-    NetworkEventHandler providesNetworkEventHandler(RxBus bus) {
-        return new NetworkEventHandler(bus);
+    NetworkEventHandler providesNetworkEventHandler(Application application, RxBus bus, RequestQueue queue) {
+        return new NetworkEventHandler(application, bus, queue);
     }
 
     @Provides
