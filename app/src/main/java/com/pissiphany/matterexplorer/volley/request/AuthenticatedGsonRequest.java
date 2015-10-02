@@ -23,18 +23,29 @@ import javax.inject.Inject;
  * I basically stole this from: https://developer.android.com/training/volley/request-custom.html
  */
 public class AuthenticatedGsonRequest<T> extends Request<T> {
-    private Class<T> mClazz;
+    private Class<? extends T> mClazz;
+    private String mBody;
     private Map<String, String> mHeaders = new HashMap<>();
     private Map<String, String> mParams = new HashMap<>();
     private Response.Listener<T> mListener;
 
+    private Priority mPriority = Priority.NORMAL;
+
     @Inject
     Gson sGson;
 
-    public AuthenticatedGsonRequest(int method, String url, Class<T> clazz,
+    // GET
+    public AuthenticatedGsonRequest(int method, String url, Class<? extends T> clazz,
+                            Response.Listener<T> listener, Response.ErrorListener errorListener) {
+        this(method, url, clazz, null, listener, errorListener);
+    }
+
+    // POST
+    private AuthenticatedGsonRequest(int method, String url, Class<? extends T> clazz, String body,
                             Response.Listener<T> listener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         this.mClazz = clazz;
+        this.mBody = body; // TODO do something with body!!
         this.mListener = listener;
     }
 
@@ -58,6 +69,15 @@ public class AuthenticatedGsonRequest<T> extends Request<T> {
         return this;
     }
 
+    public void setPriority(Priority priority) {
+        mPriority = priority;
+    }
+
+    @Override
+    public Priority getPriority() {
+        return mPriority;
+    }
+
     @Override
     protected void deliverResponse(T response) {
         mListener.onResponse(response);
@@ -78,4 +98,46 @@ public class AuthenticatedGsonRequest<T> extends Request<T> {
             return Response.error(new ParseError(e));
         }
     }
+
+//    private AuthenticatedGsonRequest(Builder<T> b) {
+//        super(b.mMethod, b.mUrl, b.mErrorListener);
+//        this.mClazz = b.mClazz;
+//        this.mListener = b.mListener;
+//        this.mBody = b.mBody; // TODO do something with body!!!
+//        this.mPriority = b.mPriority;
+//    }
+//
+//    public static class Builder<S> {
+//        private int mMethod;
+//        private String mUrl;
+//        private Class<? extends S> mClazz;
+//        private Response.Listener<S> mListener;
+//        private Response.ErrorListener mErrorListener;
+//
+//        private String mBody;
+//        private Priority mPriority = Priority.NORMAL;
+//
+//        public Builder(int method, String url, Class<? extends S> clazz,
+//                       Response.Listener<S> listener, Response.ErrorListener errorListener) {
+//            this.mMethod = method;
+//            this.mUrl = url;
+//            this.mClazz = clazz;
+//            this.mListener = listener;
+//            this.mErrorListener = errorListener;
+//        }
+//
+//        public Builder<S> setBody(String body) {
+//            this.mBody = body;
+//            return this;
+//        }
+//
+//        public Builder<S> setPriority(Priority priority) {
+//            this.mPriority = priority;
+//            return this;
+//        }
+//
+//        public AuthenticatedGsonRequest<S> build() {
+//            return new AuthenticatedGsonRequest<>(this);
+//        }
+//    }
 }
