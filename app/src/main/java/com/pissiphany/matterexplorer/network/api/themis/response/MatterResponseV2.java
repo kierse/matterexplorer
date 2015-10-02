@@ -1,5 +1,7 @@
 package com.pissiphany.matterexplorer.network.api.themis.response;
 
+import android.support.annotation.Nullable;
+
 import com.pissiphany.matterexplorer.annotation.AutoGson;
 import com.pissiphany.matterexplorer.model.Matter;
 import com.pissiphany.matterexplorer.model.PersistableParent;
@@ -16,7 +18,10 @@ import auto.parcel.AutoParcel;
 @AutoParcel
 @AutoGson(autoParcelClass = AutoParcel_MatterResponseV2.class)
 public abstract class MatterResponseV2 extends ParcelableApiResponse implements BaseResponseV2 {
+    @Nullable
     public abstract List<Matter> getMatters(); // TODO use ImmutableList here
+
+    @Nullable
     public abstract Matter getMatter();
 
     MatterResponseV2() { }

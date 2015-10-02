@@ -1,6 +1,6 @@
 package com.pissiphany.matterexplorer.network.api.themis.response;
 
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.Date;
 
@@ -13,10 +13,9 @@ public interface BaseResponseV2 {
     int getNextOffset();
     int getTotalRecords();
 
-    @NonNull
+    @Nullable
     String getOrderDir();
 
-    @NonNull
+    @Nullable
     Date getPublishedAt();
-
 }
