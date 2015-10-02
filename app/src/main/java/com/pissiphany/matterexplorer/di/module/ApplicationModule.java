@@ -40,12 +40,11 @@ public final class ApplicationModule {
 
     @Provides
     @Singleton
-    NetworkEventHandler providesNetworkEventHandler(Application application, RxBus bus, RequestQueue queue) {
-        return new NetworkEventHandler(application, bus, queue);
+    NetworkEventHandler providesNetworkEventHandler(Application application, RxBus bus, RequestQueue queue, Gson gson) {
+        return new NetworkEventHandler(application, bus, queue, gson);
     }
 
     @Provides
-    @Singleton
     Gson providesGson() {
         return new GsonBuilder()
                 .registerTypeAdapterFactory(new AutoParcelTypeAdapterFactory())
