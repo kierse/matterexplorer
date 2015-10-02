@@ -7,11 +7,13 @@ import android.support.annotation.NonNull;
  * Created by kierse on 15-10-01.
  */
 public class ThemisContractV2 {
-    private static final String DOMAIN = "";
-    private static final String API_PATH = "/api/v2";
+    private static final String SCHEME = "";
+    private static final String AUTHORITY = "";
+    private static final String API_PATH = "api/v2";
     private static final Uri ROOT_URI = new Uri.Builder()
-            .appendPath(DOMAIN)
-            .appendPath(API_PATH)
+            .scheme(SCHEME)
+            .authority(AUTHORITY)
+            .appendEncodedPath(API_PATH)
             .build();
 
     public enum Endpoints {
