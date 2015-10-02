@@ -1,6 +1,9 @@
 package com.pissiphany.matterexplorer.model;
 
+import android.content.ContentProviderOperation;
+import android.content.ContentValues;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,7 +13,9 @@ import com.pissiphany.matterexplorer.provider.contract.MatterContract;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import auto.parcel.AutoParcel;
 
@@ -19,12 +24,13 @@ import auto.parcel.AutoParcel;
  */
 @AutoParcel
 @AutoGson(autoParcelClass = AutoParcel_Matter.class)
-public abstract class Matter implements Parcelable {
+public abstract class Matter extends PersistableParent implements Parcelable {
     private static final String ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
-    @Nullable public abstract Long getId();
-    @Nullable public abstract Date getCreatedAt();
-    @Nullable public abstract Date getUpdatedAt();
+    private static final List<Class<? extends Persistable>> CLASSES = new ArrayList<>();
+    static {
+        CLASSES.add(Matter.class);
+    }
 
     @Nullable public abstract String getName();
     @Nullable public abstract String getDescription();
@@ -38,19 +44,6 @@ public abstract class Matter implements Parcelable {
     @Nullable public abstract Date getPendingDate();
     @Nullable public abstract Date getOpenDate();
     @Nullable public abstract Date getCloseDate();
-
-    // this method can be used to convert an object into a builder
-    public abstract Builder toBuilder();
-
-    // This does two things:
-    //   1. it prevents undocumented public constructor
-    //   2. prevents outside packages from subclassing
-    Matter() { }
-
-    // set any/all defaults here
-    public static Builder builder() {
-        return new AutoParcel_Matter.Builder();
-    }
 
     @AutoParcel.Builder
     public abstract static class Builder {
@@ -108,6 +101,8 @@ public abstract class Matter implements Parcelable {
                 setBillable(cursor.getInt(index) == 1);
             }
 
+            // TODO add missing fields
+
             return this;
         }
 
@@ -115,5 +110,59 @@ public abstract class Matter implements Parcelable {
             if (!prefix.isEmpty()) prefix += "_";
             return cursor.getColumnIndex(prefix + column);
         }
+    }
+
+    // this method can be used to convert an object into a builder
+    public abstract Builder toBuilder();
+
+    // set any/all defaults here
+    public static Builder builder() {
+        return new AutoParcel_Matter.Builder();
+    }
+
+    // This does two things:
+    //   1. it prevents undocumented public constructor
+    //   2. prevents outside packages from subclassing
+    Matter() { }
+
+    @Override
+    public List<Class<? extends Persistable>> getPersistableClasses() {
+        return CLASSES;
+    }
+
+    @Override
+    public List<Persistable> getPersistablesOfType(Class<? extends Persistable> klass) {
+        List<Persistable> persistables = new ArrayList<>();
+        if (klass == Matter.class) {
+            persistables.add(this);
+        }
+
+        return persistables;
+    }
+
+    @Override
+    public Uri getContentUri() {
+        return MatterContract.CONTENT_URI;
+    }
+
+    @Override
+    public List<ContentProviderOperation> getDeleteOperations() {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public ContentValues getContentValues() {
+        ContentValues values = super.getContentValues();
+
+        values.put(MatterContract.Columns.DESCRIPTION, getDescription());
+        values.put(MatterContract.Columns.STATUS, getStatus());
+        values.put(MatterContract.Columns.BILLABLE, getBillable());
+
+        // TODO determine if this actually works as expected...
+        SimpleDateFormat formatter = new SimpleDateFormat(ISO_8601);
+        values.put(MatterContract.Columns.OPEN_DATE, formatter.format(getOpenDate()));
+
+        return values;
     }
 }
