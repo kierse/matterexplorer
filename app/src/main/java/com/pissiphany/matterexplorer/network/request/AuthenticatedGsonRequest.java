@@ -23,30 +23,27 @@ import javax.inject.Inject;
  * I basically stole this from: https://developer.android.com/training/volley/request-custom.html
  */
 public class AuthenticatedGsonRequest<T> extends Request<T> {
-    private Class<? extends T> mClazz;
+    private Class<? extends T> mKlass;
     private String mBody;
-    private Map<String, String> mHeaders = new HashMap<>();
-    private Map<String, String> mParams = new HashMap<>();
+    private Map<String, String> mHeaders;
+    private Map<String, String> mParams;
     private Response.Listener<T> mListener;
 
-    private Priority mPriority = Priority.NORMAL;
+    private Priority mPriority;
 
-    @Inject
-    Gson sGson;
+    private Gson mGson;
 
-    // GET
-    public AuthenticatedGsonRequest(int method, String url, Class<? extends T> clazz,
-                            Response.Listener<T> listener, Response.ErrorListener errorListener) {
-        this(method, url, clazz, null, listener, errorListener);
-    }
+    private AuthenticatedGsonRequest(Builder<T> b) {
+        super(b.mMethod, b.mUrl, b.mErrorListener);
 
-    // POST
-    private AuthenticatedGsonRequest(int method, String url, Class<? extends T> clazz, String body,
-                            Response.Listener<T> listener, Response.ErrorListener errorListener) {
-        super(method, url, errorListener);
-        this.mClazz = clazz;
-        this.mBody = body; // TODO do something with body!!
-        this.mListener = listener;
+        this.mKlass = b.mKlass;
+        this.mListener = b.mListener;
+        this.mBody = b.mBody; // TODO do something with body!!!
+        this.mPriority = b.mPriority;
+        this.mHeaders = b.mHeaders;
+        this.mParams = b.mParams;
+
+        this.mGson = b.mGson;
     }
 
     @Override
@@ -54,23 +51,9 @@ public class AuthenticatedGsonRequest<T> extends Request<T> {
         return mHeaders;
     }
 
-    public AuthenticatedGsonRequest<T> addHeader(@NonNull String key, String value) {
-        mHeaders.put(key, value);
-        return this;
-    }
-
     @Override
     protected Map<String, String> getParams() throws AuthFailureError {
         return mParams;
-    }
-
-    public AuthenticatedGsonRequest<T> addParam(@NonNull String key, String value) {
-        mParams.put(key, value);
-        return this;
-    }
-
-    public void setPriority(Priority priority) {
-        mPriority = priority;
     }
 
     @Override
@@ -90,7 +73,7 @@ public class AuthenticatedGsonRequest<T> extends Request<T> {
                     response.data,
                     HttpHeaderParser.parseCharset(response.headers));
             return Response.success(
-                    sGson.fromJson(json, mClazz),
+                    mGson.fromJson(json, mKlass),
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
@@ -99,45 +82,84 @@ public class AuthenticatedGsonRequest<T> extends Request<T> {
         }
     }
 
-//    private AuthenticatedGsonRequest(Builder<T> b) {
-//        super(b.mMethod, b.mUrl, b.mErrorListener);
-//        this.mClazz = b.mClazz;
-//        this.mListener = b.mListener;
-//        this.mBody = b.mBody; // TODO do something with body!!!
-//        this.mPriority = b.mPriority;
-//    }
-//
-//    public static class Builder<S> {
-//        private int mMethod;
-//        private String mUrl;
-//        private Class<? extends S> mClazz;
-//        private Response.Listener<S> mListener;
-//        private Response.ErrorListener mErrorListener;
-//
-//        private String mBody;
-//        private Priority mPriority = Priority.NORMAL;
-//
-//        public Builder(int method, String url, Class<? extends S> clazz,
-//                       Response.Listener<S> listener, Response.ErrorListener errorListener) {
-//            this.mMethod = method;
-//            this.mUrl = url;
-//            this.mClazz = clazz;
-//            this.mListener = listener;
-//            this.mErrorListener = errorListener;
-//        }
-//
-//        public Builder<S> setBody(String body) {
-//            this.mBody = body;
-//            return this;
-//        }
-//
-//        public Builder<S> setPriority(Priority priority) {
-//            this.mPriority = priority;
-//            return this;
-//        }
-//
-//        public AuthenticatedGsonRequest<S> build() {
-//            return new AuthenticatedGsonRequest<>(this);
-//        }
-//    }
+    public static class Builder<S> {
+        // REQUIRED
+        private int mMethod = -2; // is < Method.DEPRECATED_GET_OR_POST
+        private String mUrl;
+        private Response.ErrorListener mErrorListener;
+        private Class<? extends S> mKlass;
+        private Response.Listener<S> mListener;
+
+        // OPTIONAL
+        private String mBody = "";
+        private Priority mPriority = Priority.NORMAL;
+        private Map<String, String> mHeaders = new HashMap<>();
+        private Map<String, String> mParams = new HashMap<>();
+
+        private Gson mGson;
+
+        @Inject
+        public Builder(Gson gson) {
+            this.mGson = gson;
+        }
+
+        public Builder<S> setMethod(int method) {
+            this.mMethod = method;
+            return this;
+        }
+
+        public Builder<S> setUrl(String url) {
+            this.mUrl = url;
+            return this;
+        }
+
+        public Builder<S> setResponseClass(Class<? extends S> klass) {
+            this.mKlass = klass;
+            return this;
+        }
+
+        public Builder<S> setListener(Response.Listener<S> listener) {
+            this.mListener = listener;
+            return this;
+        }
+
+        public Builder<S> setErrorListener(Response.ErrorListener errorListener) {
+            this.mErrorListener = errorListener;
+            return this;
+        }
+
+        public Builder<S> setBody(String body) {
+            this.mBody = body;
+            return this;
+        }
+
+        public Builder<S> setPriority(Priority priority) {
+            this.mPriority = priority;
+            return this;
+        }
+
+        public Builder<S> setHeaders(@NonNull Map<String, String> headers) {
+            this.mHeaders = headers;
+            return this;
+        }
+
+        public Builder<S> setParams(@NonNull Map<String, String> params) {
+            this.mParams = params;
+            return this;
+        }
+
+        public AuthenticatedGsonRequest<S> build() {
+            if (mGson == null) throw new NullPointerException("must provide an instance of Gson");
+
+            if (mMethod < Method.DEPRECATED_GET_OR_POST) {
+                throw new NullPointerException("must define a request method");
+            }
+            if (mUrl == null) throw new NullPointerException("must define a request url");
+            if (mKlass == null) throw new NullPointerException("must declare a response class");
+            if (mListener == null) throw new NullPointerException("must provide a success callback");
+            if (mErrorListener == null) throw new NullPointerException("must provide an error callback");
+
+            return new AuthenticatedGsonRequest<>(this);
+        }
+    }
 }
