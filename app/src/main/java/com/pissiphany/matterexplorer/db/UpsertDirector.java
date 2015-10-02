@@ -27,7 +27,7 @@ public class UpsertDirector implements Iterator<ContentValues[]> {
         this.mClasses = persistableParents.get(0).getPersistableClasses();
         this.mUnprocessedPersistables = new ArrayList<>();
 
-        buildPersistablesForNextClass();
+        identifyPersistablesForNextClass();
     }
 
     public Uri getCurrentUri() {
@@ -45,7 +45,7 @@ public class UpsertDirector implements Iterator<ContentValues[]> {
         ContentValues[] values = null;
         if (hasNext()) {
             if (mUnprocessedPersistables.size() == 0) {
-                buildPersistablesForNextClass();
+                identifyPersistablesForNextClass();
             }
 
             List<Persistable> next;
@@ -72,7 +72,7 @@ public class UpsertDirector implements Iterator<ContentValues[]> {
         throw new UnsupportedOperationException("remove is unsupported");
     }
 
-    private void buildPersistablesForNextClass() {
+    private void identifyPersistablesForNextClass() {
         if (mUnprocessedPersistables.isEmpty()) {
             for (PersistableParent parent : mPersistableParents) {
                 List<Persistable> values = parent.getPersistablesOfType(mClasses.get(++mClassCount));
