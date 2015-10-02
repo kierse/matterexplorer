@@ -1,4 +1,4 @@
-package com.pissiphany.matterexplorer.volley.response;
+package com.pissiphany.matterexplorer.network.api;
 
 import android.os.Parcelable;
 

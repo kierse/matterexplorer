@@ -1,4 +1,4 @@
-package com.pissiphany.matterexplorer.volley.event;
+package com.pissiphany.matterexplorer.network.event;
 
 /**
  * Created by kierse on 15-09-13.

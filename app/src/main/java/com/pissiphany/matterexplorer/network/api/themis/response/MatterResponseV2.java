@@ -1,9 +1,9 @@
-package com.pissiphany.matterexplorer.volley.response.themis.v2;
+package com.pissiphany.matterexplorer.network.api.themis.response;
 
 import com.pissiphany.matterexplorer.annotation.AutoGson;
 import com.pissiphany.matterexplorer.model.Matter;
 import com.pissiphany.matterexplorer.model.PersistableParent;
-import com.pissiphany.matterexplorer.volley.response.ParcelableApiResponse;
+import com.pissiphany.matterexplorer.network.api.ParcelableApiResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +14,12 @@ import auto.parcel.AutoParcel;
  * Created by kierse on 15-09-21.
  */
 @AutoParcel
-@AutoGson(autoParcelClass = AutoParcel_MatterResponse.class)
-public abstract class MatterResponse extends ParcelableApiResponse implements BaseResponse {
+@AutoGson(autoParcelClass = AutoParcel_MatterResponseV2.class)
+public abstract class MatterResponseV2 extends ParcelableApiResponse implements BaseResponseV2 {
     public abstract List<Matter> getMatters(); // TODO use ImmutableList here
     public abstract Matter getMatter();
 
-    MatterResponse() { }
+    MatterResponseV2() { }
 
     @Override
     public List<PersistableParent> getPersistableParents() {

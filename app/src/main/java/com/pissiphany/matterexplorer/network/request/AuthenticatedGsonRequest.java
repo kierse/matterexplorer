@@ -1,4 +1,4 @@
-package com.pissiphany.matterexplorer.volley.request;
+package com.pissiphany.matterexplorer.network.request;
 
 import android.support.annotation.NonNull;
 

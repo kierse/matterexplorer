@@ -1,10 +1,10 @@
-package com.pissiphany.matterexplorer.volley.event;
+package com.pissiphany.matterexplorer.network.event;
 
 import android.net.Uri;
 
 import com.android.volley.Request;
-import com.pissiphany.matterexplorer.volley.response.ParcelableApiResponse;
-import com.pissiphany.matterexplorer.volley.response.SaveableApiResponse;
+import com.pissiphany.matterexplorer.network.api.ParcelableApiResponse;
+import com.pissiphany.matterexplorer.network.api.SaveableApiResponse;
 
 /**
  * Created by kierse on 15-09-13.

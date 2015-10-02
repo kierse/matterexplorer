@@ -5,7 +5,7 @@ import android.app.Application;
 import com.android.volley.RequestQueue;
 import com.pissiphany.matterexplorer.RxBus;
 import com.pissiphany.matterexplorer.di.module.ApplicationModule;
-import com.pissiphany.matterexplorer.volley.NetworkEventHandler;
+import com.pissiphany.matterexplorer.network.NetworkEventHandler;
 
 import javax.inject.Singleton;
 

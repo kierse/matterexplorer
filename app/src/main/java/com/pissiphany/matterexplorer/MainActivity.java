@@ -9,8 +9,8 @@ import com.android.volley.Request;
 import com.pissiphany.matterexplorer.di.component.ActivityComponent;
 import com.pissiphany.matterexplorer.di.HasComponent;
 import com.pissiphany.matterexplorer.di.component.DaggerActivityComponent;
-import com.pissiphany.matterexplorer.volley.event.GetAndSaveEvent;
-import com.pissiphany.matterexplorer.volley.response.themis.v2.MatterResponse;
+import com.pissiphany.matterexplorer.network.api.themis.response.MatterResponseV2;
+import com.pissiphany.matterexplorer.network.event.GetAndSaveEvent;
 
 import javax.inject.Inject;
 
@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity implements HasComponent<ActivityC
 
         if (!mFetchData) {
             sBus.send(new GetAndSaveEvent(
-                    MatterResponse.class,
+                    MatterResponseV2.class,
                     null, // TODO get Matters API Uri
                     Request.Priority.IMMEDIATE
             ));

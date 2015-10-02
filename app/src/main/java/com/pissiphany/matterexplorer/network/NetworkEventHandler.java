@@ -1,4 +1,4 @@
-package com.pissiphany.matterexplorer.volley;
+package com.pissiphany.matterexplorer.network;
 
 import android.app.Application;
 import android.content.Intent;
@@ -9,10 +9,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.pissiphany.matterexplorer.RxBus;
 import com.pissiphany.matterexplorer.service.DatabaseService;
-import com.pissiphany.matterexplorer.volley.event.GetAndSaveEvent;
-import com.pissiphany.matterexplorer.volley.event.NetworkEvent;
-import com.pissiphany.matterexplorer.volley.request.AuthenticatedGsonRequest;
-import com.pissiphany.matterexplorer.volley.response.ParcelableApiResponse;
+import com.pissiphany.matterexplorer.network.event.GetAndSaveEvent;
+import com.pissiphany.matterexplorer.network.event.NetworkEvent;
+import com.pissiphany.matterexplorer.network.request.AuthenticatedGsonRequest;
+import com.pissiphany.matterexplorer.network.api.ParcelableApiResponse;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

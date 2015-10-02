@@ -11,7 +11,7 @@ import com.pissiphany.matterexplorer.db.DeleteDirector;
 import com.pissiphany.matterexplorer.db.UpsertDirector;
 import com.pissiphany.matterexplorer.model.PersistableParent;
 import com.pissiphany.matterexplorer.provider.contract.BaseContract;
-import com.pissiphany.matterexplorer.volley.response.ParcelableApiResponse;
+import com.pissiphany.matterexplorer.network.api.ParcelableApiResponse;
 
 import java.util.ArrayList;
 import java.util.List;
