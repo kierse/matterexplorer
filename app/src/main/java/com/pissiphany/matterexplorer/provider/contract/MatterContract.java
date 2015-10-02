@@ -11,7 +11,9 @@ public class MatterContract extends BaseContract {
     public static final String CONTENT_TYPE = BASE_CONTENT_TYPE + TABLE;
     public static final String CONTENT_ITEM_TYPE = BASE_CONTENT_TYPE + TABLE;
 
-    public static final Uri CONTENT_URI = BASE_CONTENT_URI.appendPath(TABLE).build();
+    public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
+            .appendPath(TABLE)
+            .build();
 
     public static class Columns extends BaseContract.Columns {
         public static final String DESCRIPTION = "description";

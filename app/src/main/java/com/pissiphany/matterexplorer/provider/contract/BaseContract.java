@@ -1,5 +1,6 @@
 package com.pissiphany.matterexplorer.provider.contract;
 
+import android.content.ContentResolver;
 import android.net.Uri;
 
 /**
@@ -8,7 +9,10 @@ import android.net.Uri;
 public class BaseContract {
     public static final String AUTHORITY = "com.pissiphany.matterexplorer";
 
-    public static final Uri.Builder BASE_CONTENT_URI = new Uri.Builder().authority(AUTHORITY);
+    public static final Uri BASE_CONTENT_URI = new Uri.Builder()
+            .scheme(ContentResolver.SCHEME_CONTENT)
+            .authority(AUTHORITY)
+            .build();
 
     public static final String BASE_CONTENT_TYPE = "vnd.android.cursor.dir/vnd.pissiphany.";
     public static final String BASE_CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.pissiphany.";
