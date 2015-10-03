@@ -147,8 +147,7 @@ public abstract class Matter extends PersistableParent implements Parcelable {
 
     @Override
     public List<ContentProviderOperation> getDeleteOperations() {
-        // TODO
-        return null;
+        return super.getDeleteOperations();
     }
 
     @Override

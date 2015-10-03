@@ -3,6 +3,7 @@ package com.pissiphany.matterexplorer.model;
 import android.content.ContentProviderOperation;
 import android.net.Uri;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,5 +13,8 @@ public abstract class PersistableParent extends Persistable {
     public abstract Uri getContentUri();
     public abstract List<Class<? extends Persistable>> getPersistableClasses();
     public abstract List<Persistable> getPersistablesOfType(Class<? extends Persistable> klass);
-    public abstract List<ContentProviderOperation> getDeleteOperations();
+
+    public List<ContentProviderOperation> getDeleteOperations() {
+        return new ArrayList<>(0);
+    }
 }
