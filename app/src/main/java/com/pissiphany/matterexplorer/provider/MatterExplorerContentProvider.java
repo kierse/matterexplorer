@@ -1,6 +1,7 @@
 package com.pissiphany.matterexplorer.provider;
 
 import android.content.ContentProvider;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -73,6 +74,28 @@ public class MatterExplorerContentProvider extends ContentProvider {
     public boolean onCreate() {
         mDatabaseHelper = new DatabaseHelper(getContext());
         return true;
+    }
+
+    @Override
+    public int bulkInsert(Uri uri, ContentValues[] values) {
+        int count = 0;
+        String table = getTable(uri);
+
+        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+        try {
+            db.beginTransaction();
+            for (int i = 0; i < values.length; i++) {
+                long rowId = upsert(table, values[i]);
+                if (rowId > -1) count++;
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+
+        if (count > 0) notifyChange(uri);
+
+        return count;
     }
 
     @Override
@@ -191,5 +214,9 @@ public class MatterExplorerContentProvider extends ContentProvider {
         }
 
         return builder;
+    }
+
+    private void notifyChange(Uri uri) {
+        getContext().getContentResolver().notifyChange(uri, null);
     }
 }
