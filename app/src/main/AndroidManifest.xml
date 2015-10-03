@@ -19,6 +19,12 @@
         </activity>
 
         <service android:name=".service.DatabaseService" />
+
+        <provider
+            android:authorities="com.pissiphany.matterexplorer"
+            android:name=".provider.MatterExplorerContentProvider"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
