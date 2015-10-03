@@ -158,9 +158,10 @@ public abstract class Matter extends PersistableParent implements Parcelable {
         values.put(MatterContract.Columns.STATUS, getStatus());
         values.put(MatterContract.Columns.BILLABLE, getBillable());
 
-        // TODO determine if this actually works as expected...
-        SimpleDateFormat formatter = new SimpleDateFormat(ISO_8601);
-        values.put(MatterContract.Columns.OPEN_DATE, formatter.format(getOpenDate()));
+        if (getOpenDate() != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat(ISO_8601);
+            values.put(MatterContract.Columns.OPEN_DATE, formatter.format(getOpenDate()));
+        }
 
         return values;
     }
