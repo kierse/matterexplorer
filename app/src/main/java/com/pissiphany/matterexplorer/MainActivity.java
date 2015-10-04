@@ -17,6 +17,7 @@ import com.pissiphany.matterexplorer.network.event.GetAndSaveEvent;
 
 import javax.inject.Inject;
 
+import rx.Subscription;
 import rx.functions.Action1;
 
 public class MainActivity extends BaseActivity implements HasComponent<ActivityComponent> {
@@ -28,6 +29,7 @@ public class MainActivity extends BaseActivity implements HasComponent<ActivityC
     RxBus sBus;
 
     private boolean mFetchData = false;
+    private Subscription mEventSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,20 +47,27 @@ public class MainActivity extends BaseActivity implements HasComponent<ActivityC
     protected void onResume() {
         super.onResume();
 
-        if (!mFetchData) {
-            sBus.toObservable().subscribe(new Action1<Object>() {
-                @Override
-                public void call(Object o) {
-                    if (!(o instanceof DatabaseServiceEvent)) return;
-                }
-            });
+        mEventSubscription = sBus.toObservable().subscribe(new Action1<Object>() {
+            @Override
+            public void call(Object o) {
+                if (!(o instanceof DatabaseServiceEvent)) return;
+            }
+        });
 
+        if (!mFetchData) {
             sBus.send(new GetAndSaveEvent(
                     MatterResponseV2.class,
                     ThemisContractV2.getUriForEndpoint(ThemisContractV2.Endpoints.MATTERS),
                     Request.Priority.IMMEDIATE
             ));
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        mEventSubscription.unsubscribe();
     }
 
     @Override
