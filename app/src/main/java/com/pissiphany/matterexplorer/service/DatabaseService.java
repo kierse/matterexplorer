@@ -7,8 +7,13 @@ import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
 
+import com.pissiphany.matterexplorer.App;
+import com.pissiphany.matterexplorer.RxBus;
 import com.pissiphany.matterexplorer.db.DeleteDirector;
 import com.pissiphany.matterexplorer.db.UpsertDirector;
+import com.pissiphany.matterexplorer.db.event.DatabaseServiceEvent;
+import com.pissiphany.matterexplorer.di.component.DaggerIntentServiceComponent;
+import com.pissiphany.matterexplorer.di.component.IntentServiceComponent;
 import com.pissiphany.matterexplorer.model.PersistableParent;
 import com.pissiphany.matterexplorer.provider.contract.BaseContract;
 import com.pissiphany.matterexplorer.network.api.ParcelableApiResponse;
@@ -16,53 +21,77 @@ import com.pissiphany.matterexplorer.network.api.ParcelableApiResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Created by kierse on 15-09-18.
  */
 public class DatabaseService extends IntentService {
     public static final String API_RESPONSE_OBJECT = "api_response_object";
 
+    private IntentServiceComponent mComponent;
+
+    @Inject
+    RxBus sBus;
+
     public DatabaseService() {
         super(DatabaseService.class.getSimpleName());
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+
+        mComponent = DaggerIntentServiceComponent.builder()
+                .applicationComponent(((App) getApplication()).getComponent())
+                .build();
+        mComponent.inject(this);
+    }
+
+    @Override
     protected void onHandleIntent(Intent intent) {
         if (intent.hasExtra(API_RESPONSE_OBJECT)) {
-            ParcelableApiResponse response = intent.getParcelableExtra(API_RESPONSE_OBJECT);
+            processParcelableApiResponse((ParcelableApiResponse)
+                    intent.getParcelableExtra(API_RESPONSE_OBJECT));
+        }
+    }
 
-            List<PersistableParent> persistableParents = response.getPersistableParents();
-            if (!persistableParents.isEmpty()) {
-                ContentResolver resolver = getContentResolver();
+    private void processParcelableApiResponse(ParcelableApiResponse response) {
+        int count = 0;
 
-                UpsertDirector upsertDirector = new UpsertDirector(persistableParents);
-                while (upsertDirector.hasNext()) {
-                    resolver.bulkInsert(
-                            upsertDirector.getCurrentUri(),
-                            upsertDirector.next()
-                    );
-                }
+        List<PersistableParent> persistableParents = response.getPersistableParents();
+        if (!persistableParents.isEmpty()) {
+            ContentResolver resolver = getContentResolver();
 
-                List<ContentProviderOperation> deletes = new ArrayList<>();
+            UpsertDirector upsertDirector = new UpsertDirector(persistableParents);
+            while (upsertDirector.hasNext()) {
+                count += resolver.bulkInsert(
+                        upsertDirector.getCurrentUri(),
+                        upsertDirector.next()
+                );
+            }
 
-                // build list of upsert and delete operations
-                for (PersistableParent persistableParent : persistableParents) {
-                    deletes.addAll(persistableParent.getDeleteOperations());
-                }
+            List<ContentProviderOperation> deletes = new ArrayList<>();
 
-                if (!deletes.isEmpty()) {
-                    DeleteDirector deleteDirector = new DeleteDirector(deletes);
-                    while (deleteDirector.hasNext()) {
-                        try {
-                            resolver.applyBatch(BaseContract.AUTHORITY, deleteDirector.next());
-                        } catch (RemoteException e) {
-                            // TODO should probably log this...
-                        } catch (OperationApplicationException e) {
-                            // TODO should probably log this...
-                        }
+            // build list of upsert and delete operations
+            for (PersistableParent persistableParent : persistableParents) {
+                deletes.addAll(persistableParent.getDeleteOperations());
+            }
+
+            if (!deletes.isEmpty()) {
+                DeleteDirector deleteDirector = new DeleteDirector(deletes);
+                while (deleteDirector.hasNext()) {
+                    try {
+                        resolver.applyBatch(BaseContract.AUTHORITY, deleteDirector.next());
+                    } catch (RemoteException e) {
+                        // TODO should probably log this...
+                    } catch (OperationApplicationException e) {
+                        // TODO should probably log this...
                     }
                 }
             }
         }
+
+        sBus.send(new DatabaseServiceEvent(count));
     }
 }

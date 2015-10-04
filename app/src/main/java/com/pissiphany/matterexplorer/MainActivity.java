@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.volley.Request;
+import com.pissiphany.matterexplorer.db.event.DatabaseServiceEvent;
 import com.pissiphany.matterexplorer.di.component.ActivityComponent;
 import com.pissiphany.matterexplorer.di.HasComponent;
 import com.pissiphany.matterexplorer.di.component.DaggerActivityComponent;
@@ -14,6 +15,8 @@ import com.pissiphany.matterexplorer.network.api.themis.response.MatterResponseV
 import com.pissiphany.matterexplorer.network.event.GetAndSaveEvent;
 
 import javax.inject.Inject;
+
+import rx.functions.Action1;
 
 public class MainActivity extends BaseActivity implements HasComponent<ActivityComponent> {
     private static final String FETCH_DATA_KEY = "fetch_data";
@@ -41,6 +44,13 @@ public class MainActivity extends BaseActivity implements HasComponent<ActivityC
         super.onResume();
 
         if (!mFetchData) {
+            sBus.toObservable().subscribe(new Action1<Object>() {
+                @Override
+                public void call(Object o) {
+                    if (!(o instanceof DatabaseServiceEvent)) return;
+                }
+            });
+
             sBus.send(new GetAndSaveEvent(
                     MatterResponseV2.class,
                     ThemisContractV2.getUriForEndpoint(ThemisContractV2.Endpoints.MATTERS),
