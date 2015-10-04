@@ -10,6 +10,7 @@ import com.pissiphany.matterexplorer.db.event.DatabaseServiceEvent;
 import com.pissiphany.matterexplorer.di.component.ActivityComponent;
 import com.pissiphany.matterexplorer.di.HasComponent;
 import com.pissiphany.matterexplorer.di.component.DaggerActivityComponent;
+import com.pissiphany.matterexplorer.di.module.ActivityModule;
 import com.pissiphany.matterexplorer.network.api.themis.contract.ThemisContractV2;
 import com.pissiphany.matterexplorer.network.api.themis.response.MatterResponseV2;
 import com.pissiphany.matterexplorer.network.event.GetAndSaveEvent;
@@ -35,6 +36,7 @@ public class MainActivity extends BaseActivity implements HasComponent<ActivityC
 
         mComponent = DaggerActivityComponent.builder()
                 .applicationComponent(getApplicationComponent())
+                .activityModule(new ActivityModule(this))
                 .build();
         mComponent.inject(this);
     }
