@@ -5,7 +5,6 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -87,6 +86,7 @@ public class MainActivity extends BaseActivity implements
                     ThemisContractV2.getUriForEndpoint(ThemisContractV2.Endpoints.MATTERS),
                     Request.Priority.IMMEDIATE
             ));
+            mFetchData = true;
         }
     }
 
@@ -98,8 +98,8 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
         outState.putBoolean(FETCH_DATA_KEY, mFetchData);
     }
