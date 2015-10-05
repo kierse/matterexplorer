@@ -3,4 +3,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="get_and_save_result">Successfully retrieved %d matters</string>
 </resources>

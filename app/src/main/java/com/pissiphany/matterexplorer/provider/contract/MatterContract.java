@@ -16,12 +16,14 @@ public class MatterContract extends BaseContract {
             .build();
 
     public static class Columns extends BaseContract.Columns {
+        public static final String NAME = "NAME";
         public static final String DESCRIPTION = "description";
         public static final String DISPLAY_NUMBER = "display_number";
         public static final String STATUS = "status";
         public static final String PENDING_DATE = "pending_date";
-        public static final String OPEN_DATE =  "open_date";
+        public static final String OPEN_DATE = "open_date";
         public static final String CLOSE_DATE = "close_date";
-        public static final String BILLABLE =  "billable";
+        public static final String BILLING_METHOD = "billing_method";
+        public static final String BILLABLE = "billable";
     }
 }

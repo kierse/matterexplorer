@@ -18,7 +18,7 @@ public class BaseContract {
     public static final String BASE_CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.pissiphany.";
 
     public static class Columns {
-        public static final String _ID = "_ID";
+        public static final String _ID = "_id";
         public static final String ID = "id";
         public static final String CREATED_AT = "created_at";
         public static final String UPDATED_AT = "updated_at";
