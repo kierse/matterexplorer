@@ -25,6 +25,7 @@ import com.pissiphany.matterexplorer.provider.contract.MatterContract;
 import javax.inject.Inject;
 
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
 public class MainActivity extends BaseActivity implements
@@ -71,14 +72,16 @@ public class MainActivity extends BaseActivity implements
     protected void onResume() {
         super.onResume();
 
-        mEventSubscription = sBus.toObservable().subscribe(new Action1<Object>() {
-            @Override
-            public void call(Object o) {
-                if (o instanceof DatabaseServiceEvent) {
-                    onEvent((DatabaseServiceEvent) o);
-                }
-            }
-        });
+        mEventSubscription = sBus.toObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Object>() {
+                    @Override
+                    public void call(Object o) {
+                        if (o instanceof DatabaseServiceEvent) {
+                            onEvent((DatabaseServiceEvent) o);
+                        }
+                    }
+                });
 
         if (!mFetchData) {
             sBus.send(new GetAndSaveEvent(
