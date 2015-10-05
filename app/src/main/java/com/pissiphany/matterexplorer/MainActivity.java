@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.pissiphany.matterexplorer.db.event.DatabaseServiceEvent;
@@ -50,7 +51,9 @@ public class MainActivity extends BaseActivity implements HasComponent<ActivityC
         mEventSubscription = sBus.toObservable().subscribe(new Action1<Object>() {
             @Override
             public void call(Object o) {
-                if (!(o instanceof DatabaseServiceEvent)) return;
+                if (o instanceof DatabaseServiceEvent) {
+                    onEvent((DatabaseServiceEvent) o);
+                }
             }
         });
 
@@ -109,5 +112,17 @@ public class MainActivity extends BaseActivity implements HasComponent<ActivityC
     @Override
     public ActivityComponent getComponent() {
         return this.mComponent;
+    }
+
+    private void onEvent(DatabaseServiceEvent event) {
+        if (event.getUpsertCount() > 0) {
+            Toast toast = Toast.makeText(
+                    this,
+                    String.format(getResources().getString(R.string.get_and_save_result), event.getUpsertCount()),
+                    Toast.LENGTH_SHORT
+            );
+
+            toast.show();
+        }
     }
 }
