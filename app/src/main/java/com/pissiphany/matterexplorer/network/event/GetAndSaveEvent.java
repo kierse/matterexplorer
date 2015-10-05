@@ -47,19 +47,3 @@ public class GetAndSaveEvent implements NetworkEvent {
         }
     }
 }
-
-//@AutoParcel
-//public abstract class FetchAndSaveEvent {
-//    public abstract Class<? extends ApiResponse> getResponseClass();
-//
-//    FetchAndSaveEvent() { }
-//
-//    public static Builder builder() { return new AutoParcel_FetchAndSaveEvent.Builder(); }
-//
-//    @AutoParcel.Builder
-//    public abstract static class Builder {
-//        public abstract Builder setResponseClass(Class<? extends ApiResponse> clazz);
-//
-//        public abstract FetchAndSaveEvent build();
-//    }
-//}
