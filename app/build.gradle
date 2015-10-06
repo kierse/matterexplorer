@@ -20,6 +20,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    // unable to compile when using Joda-Time Android if we don't exclude these files
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 }
 
 dependencies {
@@ -46,6 +52,9 @@ dependencies {
     // RxJava / RxAndroid
     compile 'io.reactivex:rxandroid:1.0.1'
     compile 'io.reactivex:rxjava:1.0.14'
+
+    // Joda-Time Android
+    compile 'net.danlew:android.joda:2.8.2'
 
     /* TESTING */
 

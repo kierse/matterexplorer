@@ -11,6 +11,9 @@ import android.support.annotation.Nullable;
 import com.pissiphany.matterexplorer.annotation.AutoGson;
 import com.pissiphany.matterexplorer.provider.contract.MatterContract;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,15 +40,15 @@ public abstract class Matter extends PersistableParent implements Parcelable {
     @Nullable public abstract String getStatus();
     @Nullable public abstract String getBillingMethod();
     @Nullable public abstract Boolean getBillable();
-    @Nullable public abstract Date getPendingDate();
-    @Nullable public abstract Date getOpenDate();
-    @Nullable public abstract Date getCloseDate();
+    @Nullable public abstract LocalDate getPendingDate();
+    @Nullable public abstract LocalDate getOpenDate();
+    @Nullable public abstract LocalDate getCloseDate();
 
     @AutoParcel.Builder
     public abstract static class Builder extends Persistable.Builder<Builder> {
         public abstract Builder setId(Long id);
-        public abstract Builder setCreatedAt(Date createdAt);
-        public abstract Builder setUpdatedAt(Date updatedAt);
+        public abstract Builder setCreatedAt(DateTime createdAt);
+        public abstract Builder setUpdatedAt(DateTime updatedAt);
 
         public abstract Builder setName(String name);
         public abstract Builder setDescription(String description);
@@ -53,16 +56,15 @@ public abstract class Matter extends PersistableParent implements Parcelable {
         public abstract Builder setStatus(String status);
         public abstract Builder setBillingMethod(String billingMethod);
         public abstract Builder setBillable(Boolean billable);
-        public abstract Builder setPendingDate(Date pendingDate);
-        public abstract Builder setOpenDate(Date openDate);
-        public abstract Builder setCloseDate(Date closeDate);
+        public abstract Builder setPendingDate(LocalDate pendingDate);
+        public abstract Builder setOpenDate(LocalDate openDate);
+        public abstract Builder setCloseDate(LocalDate closeDate);
 
         public abstract Matter build();
 
         @Override
         public Builder fromCursor(@NonNull Cursor cursor, @NonNull String prefix) {
             int index;
-            SimpleDateFormat formater = new SimpleDateFormat(Persistable.ISO_8601, Locale.US);
 
             // ID
             if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.ID)) > 0) {
@@ -71,16 +73,12 @@ public abstract class Matter extends PersistableParent implements Parcelable {
 
             // CREATED_AT
             if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.CREATED_AT)) > 0) {
-                try {
-                    setCreatedAt(formater.parse(cursor.getString(index)));
-                } catch (ParseException e) { }
+                setCreatedAt(new DateTime(cursor.getString(index)));
             }
 
             // UPDATED_AT
             if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.UPDATED_AT)) > 0) {
-                try {
-                    setCreatedAt(formater.parse(cursor.getString(index)));
-                } catch (ParseException e) { }
+                setUpdatedAt(new DateTime(cursor.getString(index)));
             }
 
             // NAME
@@ -115,22 +113,16 @@ public abstract class Matter extends PersistableParent implements Parcelable {
 
             // PENDING_DATE
             if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.PENDING_DATE)) > 0) {
-                try {
-                    setCreatedAt(formater.parse(cursor.getString(index)));
-                } catch (ParseException e) { }
+                setPendingDate(new LocalDate(cursor.getString(index)));
             }
             // OPEN_DATE
             if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.OPEN_DATE)) > 0) {
-                try {
-                    setOpenDate(formater.parse(cursor.getString(index)));
-                } catch (ParseException e) { }
+                setOpenDate(new LocalDate(cursor.getString(index)));
             }
 
             // CLOSE_DATE
             if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.CLOSE_DATE)) > 0) {
-                try {
-                    setOpenDate(formater.parse(cursor.getString(index)));
-                } catch (ParseException e) { }
+                setCloseDate(new LocalDate(cursor.getString(index)));
             }
 
             return this;
@@ -186,15 +178,14 @@ public abstract class Matter extends PersistableParent implements Parcelable {
         values.put(MatterContract.Columns.BILLING_METHOD, getBillingMethod());
         values.put(MatterContract.Columns.BILLABLE, getBillable());
 
-        SimpleDateFormat formatter = new SimpleDateFormat(Persistable.ISO_8601);
         if (getPendingDate() != null) {
-            values.put(MatterContract.Columns.PENDING_DATE, formatter.format(getPendingDate()));
+            values.put(MatterContract.Columns.PENDING_DATE, getPendingDate().toString());
         }
         if (getOpenDate() != null) {
-            values.put(MatterContract.Columns.OPEN_DATE, formatter.format(getOpenDate()));
+            values.put(MatterContract.Columns.OPEN_DATE, getOpenDate().toString());
         }
         if (getCloseDate() != null) {
-            values.put(MatterContract.Columns.CLOSE_DATE, formatter.format(getCloseDate()));
+            values.put(MatterContract.Columns.CLOSE_DATE, getCloseDate().toString());
         }
 
         return values;

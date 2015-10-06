@@ -7,8 +7,7 @@ import android.support.annotation.Nullable;
 
 import com.pissiphany.matterexplorer.provider.contract.BaseContract;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.joda.time.DateTime;
 
 /**
  * Created by kierse on 15-09-22.
@@ -17,19 +16,18 @@ public abstract class Persistable {
     static final String ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
     @Nullable public abstract Long getId();
-    @Nullable public abstract Date getCreatedAt();
-    @Nullable public abstract Date getUpdatedAt();
+    @Nullable public abstract DateTime getCreatedAt();
+    @Nullable public abstract DateTime getUpdatedAt();
 
     public ContentValues getContentValues() {
         ContentValues values = new ContentValues();
         values.put(BaseContract.Columns.ID, getId());
 
-        SimpleDateFormat formatter = new SimpleDateFormat(ISO_8601);
         if (getCreatedAt() != null) {
-            values.put(BaseContract.Columns.CREATED_AT, formatter.format(getCreatedAt()));
+            values.put(BaseContract.Columns.CREATED_AT, getCreatedAt().toString());
         }
         if (getUpdatedAt() != null) {
-            values.put(BaseContract.Columns.UPDATED_AT, formatter.format(getUpdatedAt()));
+            values.put(BaseContract.Columns.UPDATED_AT, getUpdatedAt().toString());
         }
 
         return values;

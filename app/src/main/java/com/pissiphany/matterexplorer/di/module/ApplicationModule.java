@@ -4,11 +4,17 @@ import android.app.Application;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pissiphany.matterexplorer.RxBus;
 import com.pissiphany.matterexplorer.gson.AutoParcelTypeAdapterFactory;
+import com.pissiphany.matterexplorer.gson.DateTimeTypeAdapter;
+import com.pissiphany.matterexplorer.gson.LocalDateTypeAdapter;
 import com.pissiphany.matterexplorer.network.NetworkEventHandler;
+
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import javax.inject.Singleton;
 
@@ -48,6 +54,9 @@ public final class ApplicationModule {
     Gson providesGson() {
         return new GsonBuilder()
                 .registerTypeAdapterFactory(new AutoParcelTypeAdapterFactory())
+                .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+                .registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
     }
 }

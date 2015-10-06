@@ -8,6 +8,8 @@ import com.pissiphany.matterexplorer.di.component.DaggerApplicationComponent;
 import com.pissiphany.matterexplorer.di.module.ApplicationModule;
 import com.pissiphany.matterexplorer.network.NetworkEventHandler;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import javax.inject.Inject;
 
 /**
@@ -29,6 +31,9 @@ public class App extends Application implements HasComponent<ApplicationComponen
                 .applicationModule(new ApplicationModule(this))
                 .build();
         this.sComponent.inject(this);
+
+        // initialize JodaTimeAndroid
+        JodaTimeAndroid.init(this);
     }
 
     @Override
