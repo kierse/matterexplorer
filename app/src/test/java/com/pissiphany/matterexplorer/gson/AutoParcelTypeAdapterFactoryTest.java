@@ -1,8 +1,7 @@
-package gson;
+package com.pissiphany.matterexplorer.gson;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.pissiphany.matterexplorer.gson.AutoParcelTypeAdapterFactory;
 import com.pissiphany.matterexplorer.model.Matter;
 
 import junit.framework.TestCase;
