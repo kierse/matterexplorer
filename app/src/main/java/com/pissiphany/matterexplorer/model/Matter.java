@@ -65,56 +65,56 @@ public abstract class Matter extends PersistableParent implements Parcelable {
             int index;
 
             // ID
-            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.ID)) > 0) {
+            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.ID)) > -1) {
                 setId(cursor.getLong(index));
             }
 
             // CREATED_AT
-            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.CREATED_AT)) > 0) {
+            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.CREATED_AT)) > -1) {
                 setCreatedAt(new DateTime(cursor.getString(index)));
             }
 
             // UPDATED_AT
-            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.UPDATED_AT)) > 0) {
+            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.UPDATED_AT)) > -1) {
                 setUpdatedAt(new DateTime(cursor.getString(index)));
             }
 
             // DESCRIPTION
-            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.DESCRIPTION)) > 0) {
+            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.DESCRIPTION)) > -1) {
                 setDescription(cursor.getString(index));
             }
 
             // DISPLAY_NUMBER
-            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.DISPLAY_NUMBER)) > 0) {
-                setDescription(cursor.getString(index));
+            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.DISPLAY_NUMBER)) > -1) {
+                setDisplayNumber(cursor.getString(index));
             }
 
             // STATUS
-            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.STATUS)) > 0) {
+            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.STATUS)) > -1) {
                 setStatus(cursor.getString(index));
             }
 
             // BILLING_METHOD
-            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.BILLING_METHOD)) > 0) {
-                setStatus(cursor.getString(index));
+            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.BILLING_METHOD)) > -1) {
+                setBillingMethod(cursor.getString(index));
             }
 
             // BILLABLE
-            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.BILLABLE)) > 0) {
-                setBillable(cursor.getInt(index) > 0);
+            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.BILLABLE)) > -1) {
+                setBillable(cursor.getInt(index) > -1);
             }
 
             // PENDING_DATE
-            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.PENDING_DATE)) > 0) {
+            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.PENDING_DATE)) > -1) {
                 setPendingDate(new LocalDate(cursor.getString(index)));
             }
             // OPEN_DATE
-            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.OPEN_DATE)) > 0) {
+            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.OPEN_DATE)) > -1) {
                 setOpenDate(new LocalDate(cursor.getString(index)));
             }
 
             // CLOSE_DATE
-            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.CLOSE_DATE)) > 0) {
+            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.CLOSE_DATE)) > -1) {
                 setCloseDate(new LocalDate(cursor.getString(index)));
             }
 
