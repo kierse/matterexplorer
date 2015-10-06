@@ -25,7 +25,7 @@ public class AutoParcelTypeAdapterFactoryTest extends TestCase {
     public void testParsing() throws Exception {
         final Matter matter = Matter.builder()
                 .setId(1L)
-                .setName("Foo")
+                .setDisplayNumber("Foo")
                 .build();
         final String json = gson.toJson(matter);
         final Matter matterFromJson = gson.fromJson(json, Matter.class);

@@ -16,7 +16,6 @@ public class MatterContract extends BaseContract {
             .build();
 
     public static class Columns extends BaseContract.Columns {
-        public static final String NAME = "name";
         public static final String DESCRIPTION = "description";
         public static final String DISPLAY_NUMBER = "display_number";
         public static final String STATUS = "status";

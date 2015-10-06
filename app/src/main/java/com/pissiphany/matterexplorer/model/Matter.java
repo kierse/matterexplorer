@@ -34,7 +34,6 @@ public abstract class Matter extends PersistableParent implements Parcelable {
         CLASSES.add(Matter.class);
     }
 
-    @Nullable public abstract String getName();
     @Nullable public abstract String getDescription();
     @Nullable public abstract String getDisplayNumber();
     @Nullable public abstract String getStatus();
@@ -50,7 +49,6 @@ public abstract class Matter extends PersistableParent implements Parcelable {
         public abstract Builder setCreatedAt(DateTime createdAt);
         public abstract Builder setUpdatedAt(DateTime updatedAt);
 
-        public abstract Builder setName(String name);
         public abstract Builder setDescription(String description);
         public abstract Builder setDisplayNumber(String displayNumber);
         public abstract Builder setStatus(String status);
@@ -79,11 +77,6 @@ public abstract class Matter extends PersistableParent implements Parcelable {
             // UPDATED_AT
             if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.UPDATED_AT)) > 0) {
                 setUpdatedAt(new DateTime(cursor.getString(index)));
-            }
-
-            // NAME
-            if ((index = getColumnIndex(cursor, prefix, MatterContract.Columns.NAME)) > 0) {
-                setDescription(cursor.getString(index));
             }
 
             // DESCRIPTION
@@ -171,7 +164,6 @@ public abstract class Matter extends PersistableParent implements Parcelable {
     public ContentValues getContentValues() {
         ContentValues values = super.getContentValues();
 
-        values.put(MatterContract.Columns.NAME, getName());
         values.put(MatterContract.Columns.DESCRIPTION, getDescription());
         values.put(MatterContract.Columns.DISPLAY_NUMBER, getDisplayNumber());
         values.put(MatterContract.Columns.STATUS, getStatus());

@@ -20,7 +20,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + MatterContract.Columns.ID + " INTEGER UNIQUE, "
                 + MatterContract.Columns.UPDATED_AT + " TEXT, "
                 + MatterContract.Columns.CREATED_AT + " TEXT, "
-                + MatterContract.Columns.NAME + " TEXT, "
                 + MatterContract.Columns.DESCRIPTION + " TEXT, "
                 + MatterContract.Columns.DISPLAY_NUMBER + " TEXT, "
                 + MatterContract.Columns.STATUS + " TEXT, "
