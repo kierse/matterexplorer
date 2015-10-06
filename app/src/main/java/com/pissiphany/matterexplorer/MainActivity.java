@@ -39,6 +39,7 @@ public class MainActivity extends BaseActivity implements
             MatterContract.Columns.ID,
             MatterContract.Columns.DISPLAY_NUMBER,
             MatterContract.Columns.DESCRIPTION,
+            MatterContract.Columns.STATUS,
     };
 
     private ActivityComponent mComponent;

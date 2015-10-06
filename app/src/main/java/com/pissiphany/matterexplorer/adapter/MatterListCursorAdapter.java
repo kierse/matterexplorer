@@ -24,13 +24,19 @@ public class MatterListCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         TextView displayNumber = (TextView) view.findViewById(R.id.primary_text);
         TextView description = (TextView) view.findViewById(R.id.secondary_text);
+        TextView status = (TextView) view.findViewById(R.id.tertiary_text);
 
-        displayNumber.setText(cursor.getString(cursor.getColumnIndex(MatterContract.Columns.DISPLAY_NUMBER)));
-        description.setText(cursor.getString(cursor.getColumnIndex(MatterContract.Columns.DESCRIPTION)));
+        displayNumber.setText(getCursorString(cursor, MatterContract.Columns.DISPLAY_NUMBER));
+        description.setText(getCursorString(cursor, MatterContract.Columns.DESCRIPTION));
+        status.setText(getCursorString(cursor, MatterContract.Columns.STATUS));
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+    }
+
+    private String getCursorString(Cursor cursor, String column) {
+        return cursor.getString(cursor.getColumnIndex(column));
     }
 }
