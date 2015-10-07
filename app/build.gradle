@@ -56,6 +56,9 @@ dependencies {
     // Joda-Time Android
     compile 'net.danlew:android.joda:2.8.2'
 
+    // Guage
+    compile group: 'com.google.guava', name: 'guava', version: '18.0'
+
     /* TESTING */
 
     // JUnit

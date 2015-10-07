@@ -1,6 +1,7 @@
 package com.pissiphany.matterexplorer.di.module;
 
 import android.app.Application;
+import android.net.Uri;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -16,6 +17,7 @@ import com.pissiphany.matterexplorer.network.NetworkEventHandler;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -27,15 +29,31 @@ import dagger.Provides;
 @Module
 public final class ApplicationModule {
     private final Application mApplication;
+    private final Uri mRootUri;
+    private final String mApiToken;
 
-    public ApplicationModule(Application app) {
+    public ApplicationModule(Application app, Uri rootUri, String apiToken) {
         this.mApplication = app;
+        this.mRootUri = rootUri;
+        this.mApiToken = apiToken;
     }
 
     @Provides
     @Singleton
     Application provideApplication() {
         return mApplication;
+    }
+
+    @Provides
+    @Named("api_root")
+    Uri provideRootUri() {
+        return mRootUri;
+    }
+
+    @Provides
+    @Named("api_token")
+    String provideApiToken() {
+        return mApiToken;
     }
 
     @Provides
@@ -46,8 +64,13 @@ public final class ApplicationModule {
 
     @Provides
     @Singleton
-    NetworkEventHandler providesNetworkEventHandler(Application application, RxBus bus, RequestQueue queue, Gson gson) {
-        return new NetworkEventHandler(application, bus, queue, gson);
+    NetworkEventHandler providesNetworkEventHandler(
+            Application application,
+            RxBus bus,
+            RequestQueue queue,
+            Gson gson)
+    {
+        return new NetworkEventHandler(application, bus, queue, gson, mApiToken);
     }
 
     @Provides

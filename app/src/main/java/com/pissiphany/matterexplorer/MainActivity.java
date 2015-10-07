@@ -5,6 +5,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import com.pissiphany.matterexplorer.network.event.GetAndSaveEvent;
 import com.pissiphany.matterexplorer.provider.contract.MatterContract;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -51,6 +53,10 @@ public class MainActivity extends BaseActivity implements
 
     @Inject
     RxBus sBus;
+
+    @Inject
+    @Named("api_root")
+    Uri mRootUri;
 
     private boolean mFetchData = false;
     private Subscription mEventSubscription;
@@ -93,7 +99,7 @@ public class MainActivity extends BaseActivity implements
         if (!mFetchData) {
             sBus.send(new GetAndSaveEvent(
                     MatterResponseV2.class,
-                    ThemisContractV2.getUriForEndpoint(ThemisContractV2.Endpoints.MATTERS),
+                    ThemisContractV2.getUriForEndpoint(mRootUri, ThemisContractV2.Endpoints.MATTERS),
                     Request.Priority.IMMEDIATE
             ));
             mFetchData = true;

@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.pissiphany.matterexplorer.RxBus;
 import com.pissiphany.matterexplorer.network.api.themis.contract.ThemisContractV2;
@@ -28,17 +29,34 @@ import rx.functions.Action1;
 public class NetworkEventHandler implements
         Response.Listener<ParcelableApiResponse>,
         Response.ErrorListener {
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String AUTHORIZATION_VALUE = "Bearer ";
+
     private Application sApp;
     private RxBus sBus;
     private RequestQueue sQueue;
     private Gson mGson;
+    private String mApiToken;
+    private ImmutableMap<String, String> mHeaders;
 
     @Inject
-    public NetworkEventHandler(Application application, RxBus bus, RequestQueue queue, Gson gson) {
+    public NetworkEventHandler(
+            Application application,
+            RxBus bus,
+            RequestQueue queue,
+            Gson gson,
+            String apiToken)
+    {
         this.sApp = application;
         this.sBus = bus;
         this.sQueue = queue;
         this.mGson = gson;
+        this.mApiToken = apiToken;
+
+        mHeaders = new ImmutableMap.Builder<String, String>()
+                .putAll(ThemisContractV2.DEFAULT_HEADERS)
+                .put(AUTHORIZATION_HEADER, AUTHORIZATION_VALUE + mApiToken)
+                .build();
 
         sBus.toObservable()
                 .subscribe(new Action1<Object>() {
@@ -62,7 +80,7 @@ public class NetworkEventHandler implements
                         .setListener(this)
                         .setErrorListener(this)
                         .setPriority(event.getPriority())
-                        .setHeaders(ThemisContractV2.AUTHENTICATED_HEADERS)
+                        .setHeaders(mHeaders)
                         .build();
 
         sQueue.add(request);
