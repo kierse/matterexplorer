@@ -18,6 +18,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".MatterDetailActivity"
+            android:label="Matter Detail" />
+
         <service android:name=".service.DatabaseService" />
 
         <provider

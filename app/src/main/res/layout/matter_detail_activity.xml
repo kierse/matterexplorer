@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/display_number"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp"
+        tools:text="Display Number"
+        android:textStyle="bold"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/description"
+        android:layout_below="@+id/display_number"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        tools:textAppearance="?android:attr/textAppearanceMedium"
+        tools:text="Description" />
+
+    <View
+        android:id="@+id/center"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/description"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/pending_date_label"
+        android:layout_alignEnd="@id/center"
+        android:layout_alignRight="@+id/center"
+        android:layout_marginRight="15dp"
+        android:gravity="right"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="Pending Date" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/open_date_label"
+        android:layout_below="@+id/pending_date_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="right"
+        android:layout_marginRight="15dp"
+        android:layout_alignEnd="@id/center"
+        android:layout_alignRight="@id/center"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="Open Date" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/closed_date_label"
+        android:layout_below="@+id/open_date_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="right"
+        android:layout_alignEnd="@id/center"
+        android:layout_alignRight="@id/center"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="Closed Date" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pending_date"
+        android:layout_above="@+id/open_date_label"
+        android:layout_toRightOf="@+id/pending_date_label"
+        android:layout_toEndOf="@+id/pending_date_label"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentEnd="false"
+        android:layout_alignStart="@id/center"
+        android:layout_alignLeft="@id/center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        tools:hint="YYYY/mm/dd" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/open_date"
+        android:layout_above="@+id/closed_date_label"
+        android:layout_toRightOf="@+id/open_date_label"
+        android:layout_toEndOf="@+id/open_date_label"
+        android:layout_alignStart="@id/center"
+        android:layout_alignLeft="@id/center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        tools:text="YYYY/mm/dd" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/closed_date"
+        android:layout_below="@+id/open_date"
+        android:layout_toRightOf="@+id/closed_date_label"
+        android:layout_toEndOf="@+id/closed_date_label"
+        android:layout_alignStart="@id/center"
+        android:layout_alignLeft="@id/center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        tools:text="YYYY/mm/dd" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/billing_method_label"
+        android:layout_below="@+id/closed_date_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:singleLine="false"
+        android:gravity="right"
+        android:layout_alignEnd="@id/center"
+        android:layout_alignRight="@id/center"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="Billing Method" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/billing_method"
+        android:layout_below="@+id/closed_date"
+        android:layout_toRightOf="@+id/billing_method_label"
+        android:layout_toEndOf="@+id/billing_method_label"
+        android:layout_alignStart="@id/center"
+        android:layout_alignLeft="@id/center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        tools:text="Flat" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/billable_label"
+        android:layout_below="@+id/billing_method_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@id/center"
+        android:layout_alignRight="@id/center"
+        android:layout_marginRight="15dp"
+        android:gravity="right"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="Billable" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/billable"
+        android:layout_below="@+id/billing_method_label"
+        android:layout_toRightOf="@+id/billable_label"
+        android:layout_toEndOf="@+id/billable_label"
+        android:enabled="false"
+        android:layout_alignStart="@id/center"
+        android:layout_alignLeft="@id/center"
+        android:layout_marginLeft="15dp" />
+</RelativeLayout>

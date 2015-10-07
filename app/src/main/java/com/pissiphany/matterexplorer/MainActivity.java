@@ -2,11 +2,14 @@ package com.pissiphany.matterexplorer;
 
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,7 +33,8 @@ import rx.functions.Action1;
 
 public class MainActivity extends BaseActivity implements
         HasComponent<ActivityComponent>,
-        LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor>,
+        AdapterView.OnItemClickListener {
     private static final String FETCH_DATA_KEY = "fetch_data";
     private static final int MATTERS_LOADER_ID = 0;
 
@@ -65,6 +69,8 @@ public class MainActivity extends BaseActivity implements
         mAdapter = new MatterListCursorAdapter(this);
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(mAdapter);
+
+        listView.setOnItemClickListener(this);
 
         getLoaderManager().initLoader(MATTERS_LOADER_ID, null, this);
     }
@@ -135,6 +141,14 @@ public class MainActivity extends BaseActivity implements
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Cursor cursor = (Cursor) mAdapter.getItem(position);
+        Intent intent = MatterDetailActivity
+                .newIntent(this, cursor.getLong(cursor.getColumnIndex(MatterContract.Columns.ID)));
+        startActivity(intent);
     }
 
     @Override

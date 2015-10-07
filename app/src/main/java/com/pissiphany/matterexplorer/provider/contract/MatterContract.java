@@ -1,5 +1,6 @@
 package com.pissiphany.matterexplorer.provider.contract;
 
+import android.content.ContentUris;
 import android.net.Uri;
 
 /**
@@ -24,5 +25,9 @@ public class MatterContract extends BaseContract {
         public static final String CLOSE_DATE = "close_date";
         public static final String BILLING_METHOD = "billing_method";
         public static final String BILLABLE = "billable";
+    }
+
+    public static Uri buildSelectionUri(long id) {
+        return ContentUris.withAppendedId(CONTENT_URI, id);
     }
 }
