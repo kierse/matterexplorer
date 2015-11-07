@@ -73,15 +73,16 @@ public class NetworkEventHandler implements
 
     private void onEvent(GetAndSaveEvent event) {
         AuthenticatedGsonRequest<ParcelableApiResponse> request =
-                new AuthenticatedGsonRequest.Builder<ParcelableApiResponse>(mGson)
-                        .setMethod(Request.Method.GET)
-                        .setUrl(event.getUri().toString())
-                        .setResponseClass(event.getResponseClass())
-                        .setListener(this)
-                        .setErrorListener(this)
-                        .setPriority(event.getPriority())
-                        .setHeaders(mHeaders)
-                        .build();
+                new AuthenticatedGsonRequest.Builder<>(
+                        mGson,
+                        Request.Method.GET,
+                        event.getUri().toString(),
+                        event.getResponseClass(),
+                        this,
+                        this)
+                    .setPriority(event.getPriority())
+                    .setHeaders(mHeaders)
+                    .build();
 
         sQueue.add(request);
     }

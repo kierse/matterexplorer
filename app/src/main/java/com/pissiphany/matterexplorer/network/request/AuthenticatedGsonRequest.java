@@ -15,8 +15,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 /**
  * Created by kierse on 15-09-13.
  *
@@ -98,34 +96,20 @@ public class AuthenticatedGsonRequest<T> extends Request<T> {
 
         private Gson mGson;
 
-        @Inject
-        public Builder(Gson gson) {
+        public Builder(
+                Gson gson,
+                int method,
+                String url,
+                Class<? extends S> klass,
+                Response.Listener<S> listener,
+                Response.ErrorListener errorListener
+        ) {
             this.mGson = gson;
-        }
-
-        public Builder<S> setMethod(int method) {
             this.mMethod = method;
-            return this;
-        }
-
-        public Builder<S> setUrl(String url) {
             this.mUrl = url;
-            return this;
-        }
-
-        public Builder<S> setResponseClass(Class<? extends S> klass) {
             this.mKlass = klass;
-            return this;
-        }
-
-        public Builder<S> setListener(Response.Listener<S> listener) {
             this.mListener = listener;
-            return this;
-        }
-
-        public Builder<S> setErrorListener(Response.ErrorListener errorListener) {
             this.mErrorListener = errorListener;
-            return this;
         }
 
         public Builder<S> setBody(String body) {
@@ -149,15 +133,9 @@ public class AuthenticatedGsonRequest<T> extends Request<T> {
         }
 
         public AuthenticatedGsonRequest<S> build() {
-            if (mGson == null) throw new NullPointerException("must provide an instance of Gson");
-
             if (mMethod < Method.DEPRECATED_GET_OR_POST) {
                 throw new NullPointerException("must define a request method");
             }
-            if (mUrl == null) throw new NullPointerException("must define a request url");
-            if (mKlass == null) throw new NullPointerException("must declare a response class");
-            if (mListener == null) throw new NullPointerException("must provide a success callback");
-            if (mErrorListener == null) throw new NullPointerException("must provide an error callback");
 
             return new AuthenticatedGsonRequest<>(this);
         }
