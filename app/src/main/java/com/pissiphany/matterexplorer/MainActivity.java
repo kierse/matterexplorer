@@ -32,6 +32,7 @@ import javax.inject.Named;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Func1;
 
 public class MainActivity extends BaseActivity implements
         HasComponent<ActivityComponent>,
@@ -86,13 +87,16 @@ public class MainActivity extends BaseActivity implements
         super.onResume();
 
         mEventSubscription = sBus.toObservable()
-                .observeOn(AndroidSchedulers.mainThread())
+                .filter(new Func1<Object, Boolean>() {
+                    @Override
+                    public Boolean call(Object o) {
+                        return o instanceof DatabaseServiceEvent;
+                    }
+                })
                 .subscribe(new Action1<Object>() {
                     @Override
                     public void call(Object o) {
-                        if (o instanceof DatabaseServiceEvent) {
-                            onEvent((DatabaseServiceEvent) o);
-                        }
+                        onEvent((DatabaseServiceEvent) o);
                     }
                 });
 

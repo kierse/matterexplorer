@@ -76,8 +76,7 @@ public class UpsertDirector implements Iterator<ContentValues[]> {
         if (mUnprocessedPersistables.isEmpty()) {
             Class<? extends Persistable> klass = mClasses.get(++mClassCount);
             for (PersistableParent parent : mPersistableParents) {
-                List<Persistable> values = parent.getPersistablesOfType(klass);
-                mUnprocessedPersistables.addAll(values);
+                mUnprocessedPersistables.addAll(parent.getPersistablesOfType(klass));
             }
         }
     }

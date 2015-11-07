@@ -5,9 +5,6 @@ import android.support.annotation.NonNull;
 
 import com.google.common.collect.ImmutableMap;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by kierse on 15-10-01.
  */
@@ -22,7 +19,7 @@ public class ThemisContractV2 {
 
     public static final ImmutableMap<String, String> DEFAULT_HEADERS =
             new ImmutableMap.Builder<String, String>()
-                    .put(CONTENT_TYPE_HEADER,CONTENT_TYPE_VALUE)
+                    .put(CONTENT_TYPE_HEADER, CONTENT_TYPE_VALUE)
                     .put(ACCEPT_HEADER, ACCEPT_VALUE)
                     .build();
 
@@ -41,14 +38,14 @@ public class ThemisContractV2 {
     }
 
     public static Uri getUriForEndpoint(@NonNull Uri root, @NonNull Endpoints endpoint) {
-        return getAp1V2Uri(root).buildUpon().appendPath(endpoint.getEndpointPath()).build();
+        return getApiV2Uri(root).buildUpon().appendPath(endpoint.getEndpointPath()).build();
     }
 
     public static Uri getUriForEndpoint(@NonNull Uri root, @NonNull Endpoints endpoint, @NonNull Long id) {
         return getUriForEndpoint(root, endpoint).buildUpon().appendPath(id.toString()).build();
     }
 
-    private static Uri getAp1V2Uri(Uri root) {
+    private static Uri getApiV2Uri(Uri root) {
         return root.buildUpon().appendEncodedPath(API_PATH).build();
     }
 }

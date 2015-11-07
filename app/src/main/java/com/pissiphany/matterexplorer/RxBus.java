@@ -14,6 +14,8 @@ import rx.subjects.Subject;
  * Based on code samples and tutorial at:
  * http://nerds.weddingpartyapp.com/tech/2014/12/24/implementing-an-event-bus-with-rxjava-rxbus/
  * https://gist.github.com/benjchristensen/04eef9ca0851f3a5d7bf
+ *
+ * TODO look at http://blog.human-readable.net/2015/08/lightweight-event-bus.html for a more in depth example
  */
 @Singleton
 public class RxBus {
