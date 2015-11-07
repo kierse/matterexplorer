@@ -1,4 +1,4 @@
-package com.pissiphany.matterexplorer;
+package com.pissiphany.matterexplorer.ui;
 
 import android.app.LoaderManager;
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.pissiphany.matterexplorer.R;
 import com.pissiphany.matterexplorer.model.Matter;
 import com.pissiphany.matterexplorer.provider.contract.MatterContract;
 

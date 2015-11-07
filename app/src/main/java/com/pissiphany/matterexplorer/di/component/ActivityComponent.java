@@ -2,7 +2,7 @@ package com.pissiphany.matterexplorer.di.component;
 
 import android.app.Activity;
 
-import com.pissiphany.matterexplorer.MainActivity;
+import com.pissiphany.matterexplorer.ui.MainActivity;
 import com.pissiphany.matterexplorer.annotation.PerActivity;
 import com.pissiphany.matterexplorer.di.module.ActivityModule;
 

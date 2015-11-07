@@ -1,4 +1,4 @@
-package com.pissiphany.matterexplorer;
+package com.pissiphany.matterexplorer.ui;
 
 import android.app.LoaderManager;
 import android.content.CursorLoader;
@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.pissiphany.matterexplorer.R;
+import com.pissiphany.matterexplorer.RxBus;
 import com.pissiphany.matterexplorer.adapter.MatterListCursorAdapter;
 import com.pissiphany.matterexplorer.db.event.DatabaseServiceEvent;
 import com.pissiphany.matterexplorer.di.component.ActivityComponent;
@@ -30,7 +32,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
