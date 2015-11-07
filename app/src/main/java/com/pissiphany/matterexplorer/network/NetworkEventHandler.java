@@ -29,9 +29,6 @@ import rx.functions.Action1;
 public class NetworkEventHandler implements
         Response.Listener<ParcelableApiResponse>,
         Response.ErrorListener {
-    private static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final String AUTHORIZATION_VALUE = "Bearer ";
-
     private Application sApp;
     private RxBus sBus;
     private RequestQueue sQueue;
@@ -55,7 +52,7 @@ public class NetworkEventHandler implements
 
         mHeaders = new ImmutableMap.Builder<String, String>()
                 .putAll(ThemisContractV2.DEFAULT_HEADERS)
-                .put(AUTHORIZATION_HEADER, AUTHORIZATION_VALUE + mApiToken)
+                .put(ThemisContractV2.getAuthorizationHeader(mApiToken))
                 .build();
 
         sBus.toObservable()
