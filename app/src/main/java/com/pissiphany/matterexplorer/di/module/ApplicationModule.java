@@ -4,6 +4,7 @@ import android.app.Application;
 import android.net.Uri;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -16,6 +17,10 @@ import com.pissiphany.matterexplorer.network.NetworkEventHandler;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -59,7 +64,15 @@ public final class ApplicationModule {
     @Provides
     @Singleton
     RequestQueue provideRequestQueue(Application application) {
-        return Volley.newRequestQueue(application);
+        return Volley.newRequestQueue(application, new HurlStack() {
+            @Override
+            protected HttpURLConnection createConnection(URL url) throws IOException {
+                HttpURLConnection connection = super.createConnection(url);
+                connection.setInstanceFollowRedirects(false);
+
+                return connection;
+            }
+        });
     }
 
     @Provides
