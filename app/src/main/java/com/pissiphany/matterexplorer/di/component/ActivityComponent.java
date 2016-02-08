@@ -2,9 +2,10 @@ package com.pissiphany.matterexplorer.di.component;
 
 import android.app.Activity;
 
-import com.pissiphany.matterexplorer.ui.MainActivity;
 import com.pissiphany.matterexplorer.annotation.PerActivity;
+
 import com.pissiphany.matterexplorer.di.module.ActivityModule;
+import com.pissiphany.matterexplorer.ui.matter.MatterActivity;
 
 import dagger.Component;
 
@@ -14,7 +15,7 @@ import dagger.Component;
 @PerActivity
 @Component(dependencies = {ApplicationComponent.class}, modules = {ActivityModule.class})
 public interface ActivityComponent {
-    void inject(MainActivity activity);
+    void inject(MatterActivity activity);
 
     Activity activity();
 }
