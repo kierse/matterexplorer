@@ -4,6 +4,7 @@ import android.app.Application;
 import android.net.Uri;
 
 import com.android.volley.RequestQueue;
+import com.google.gson.Gson;
 import com.pissiphany.matterexplorer.App;
 import com.pissiphany.matterexplorer.rx.RxBus;
 import com.pissiphany.matterexplorer.di.module.ApplicationModule;
@@ -36,6 +37,7 @@ public interface ApplicationComponent {
     RequestQueue requestQueue();
     NetworkEventHandler networkEventHandler();
     RxBus rxBus();
+    Gson gson();
 
     @Named("api_root")
     Uri apiRoot();

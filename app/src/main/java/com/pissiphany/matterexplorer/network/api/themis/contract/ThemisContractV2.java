@@ -29,16 +29,16 @@ public class ThemisContractV2 {
                     .build();
 
     public enum Endpoints {
-        MATTERS("matters");
+        BILL_DOWNLOAD("bills/%d.pdf"),
 
-        private String endpointPath;
+        MATTERS("matters"),
 
-        Endpoints(String endpointPath) {
-            this.endpointPath = endpointPath;
-        }
+        USER_AVATAR_DOWNLOAD("users/%d/avatar");
 
-        public String getEndpointPath() {
-            return endpointPath;
+        private String mPath;
+
+        Endpoints(String path) {
+            this.mPath = path;
         }
     }
 
@@ -62,14 +62,21 @@ public class ThemisContractV2 {
     }
 
     public static Uri getUriForEndpoint(@NonNull Uri root, @NonNull Endpoints endpoint) {
-        return getApiV2Uri(root).buildUpon().appendPath(endpoint.getEndpointPath()).build();
+        return getApiV2Uri(root).buildUpon().appendPath(endpoint.mPath).build();
     }
 
-    public static Uri getUriForEndpoint(@NonNull Uri root, @NonNull Endpoints endpoint, @NonNull Long id) {
-        return getUriForEndpoint(root, endpoint).buildUpon().appendPath(id.toString()).build();
+    public static Uri getUriForEndpoint(@NonNull Uri root, @NonNull Endpoints endpoint, long id) {
+        return getApiV2Uri(root)
+                .buildUpon()
+                .appendEncodedPath(buildEncodedPath(endpoint, id))
+                .build();
     }
 
     private static Uri getApiV2Uri(Uri root) {
         return root.buildUpon().appendEncodedPath(API_PATH).build();
+    }
+
+    private static String buildEncodedPath(Endpoints endpoint, long id) {
+        return String.format(endpoint.mPath, id);
     }
 }

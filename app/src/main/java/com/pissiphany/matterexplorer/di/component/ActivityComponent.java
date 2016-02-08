@@ -6,6 +6,7 @@ import com.pissiphany.matterexplorer.annotation.PerActivity;
 
 import com.pissiphany.matterexplorer.di.module.ActivityModule;
 import com.pissiphany.matterexplorer.ui.matter.MatterActivity;
+import com.pissiphany.matterexplorer.ui.rx.RxMainActivity;
 
 import dagger.Component;
 
@@ -16,6 +17,7 @@ import dagger.Component;
 @Component(dependencies = {ApplicationComponent.class}, modules = {ActivityModule.class})
 public interface ActivityComponent {
     void inject(MatterActivity activity);
+    void inject(RxMainActivity activity);
 
     Activity activity();
 }

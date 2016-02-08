@@ -19,8 +19,16 @@
         </activity>
 
         <activity
-            android:name=".ui.MatterDetailActivity"
+            android:name=".ui.matter.MatterActivity"
+            android:label="Matter List" />
+
+        <activity
+            android:name=".ui.matter.MatterDetailActivity"
             android:label="Matter Detail" />
+
+        <activity
+            android:name=".ui.rx.RxMainActivity"
+            android:label="Rx Main" />
 
         <service android:name=".service.DatabaseService" />
 
