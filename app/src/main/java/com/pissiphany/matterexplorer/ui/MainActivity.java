@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.pissiphany.matterexplorer.R;
-import com.pissiphany.matterexplorer.RxBus;
+import com.pissiphany.matterexplorer.rx.RxBus;
 import com.pissiphany.matterexplorer.adapter.MatterListCursorAdapter;
 import com.pissiphany.matterexplorer.db.event.DatabaseServiceEvent;
 import com.pissiphany.matterexplorer.di.component.ActivityComponent;

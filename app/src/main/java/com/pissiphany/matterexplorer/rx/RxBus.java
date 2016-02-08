@@ -1,4 +1,4 @@
-package com.pissiphany.matterexplorer;
+package com.pissiphany.matterexplorer.rx;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

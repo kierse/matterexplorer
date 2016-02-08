@@ -9,7 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
-import com.pissiphany.matterexplorer.RxBus;
+import com.pissiphany.matterexplorer.rx.RxBus;
 import com.pissiphany.matterexplorer.network.api.themis.contract.ThemisContractV2;
 import com.pissiphany.matterexplorer.network.request.AuthenticatedGsonRequest;
 import com.pissiphany.matterexplorer.service.DatabaseService;

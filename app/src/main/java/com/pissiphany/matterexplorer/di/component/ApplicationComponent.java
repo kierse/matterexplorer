@@ -5,7 +5,7 @@ import android.net.Uri;
 
 import com.android.volley.RequestQueue;
 import com.pissiphany.matterexplorer.App;
-import com.pissiphany.matterexplorer.RxBus;
+import com.pissiphany.matterexplorer.rx.RxBus;
 import com.pissiphany.matterexplorer.di.module.ApplicationModule;
 import com.pissiphany.matterexplorer.network.NetworkEventHandler;
 

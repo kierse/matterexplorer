@@ -8,7 +8,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.pissiphany.matterexplorer.RxBus;
+import com.pissiphany.matterexplorer.rx.RxBus;
 import com.pissiphany.matterexplorer.gson.AutoParcelTypeAdapterFactory;
 import com.pissiphany.matterexplorer.gson.DateTimeTypeAdapter;
 import com.pissiphany.matterexplorer.gson.LocalDateTypeAdapter;

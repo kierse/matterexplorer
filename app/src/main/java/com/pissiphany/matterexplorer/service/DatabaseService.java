@@ -8,7 +8,7 @@ import android.content.OperationApplicationException;
 import android.os.RemoteException;
 
 import com.pissiphany.matterexplorer.App;
-import com.pissiphany.matterexplorer.RxBus;
+import com.pissiphany.matterexplorer.rx.RxBus;
 import com.pissiphany.matterexplorer.db.DeleteDirector;
 import com.pissiphany.matterexplorer.db.UpsertDirector;
 import com.pissiphany.matterexplorer.db.event.DatabaseServiceEvent;
