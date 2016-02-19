@@ -15,7 +15,9 @@ import com.pissiphany.matterexplorer.network.request.AuthenticatedStringRequest;
 
 import java.io.File;
 import java.net.HttpURLConnection;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.Single;
@@ -36,20 +38,6 @@ public class DownloadFile {
             final String apiToken,
             @NonNull final Uri apiUri
     ) {
-//        return Single.create(new Single.OnSubscribe<Uri>() {
-//            @Override
-//            public void call(SingleSubscriber<? super Uri> singleSubscriber) {
-//                // TODO call apiUri and get the actual Uri where the desired file can be downloaded
-//                Uri remoteUri = Uri.EMPTY;
-//                if (remoteUri.equals(Uri.EMPTY)) {
-//                    singleSubscriber.onError(new Throwable("" /* TODO throw real error */));
-//                } else {
-//                    singleSubscriber.onSuccess(remoteUri);
-//                }
-//
-//            }
-//        });
-
         ImmutableMap<String, String> headers = new ImmutableMap.Builder<String, String>()
                 .putAll(ThemisContractV2.DEFAULT_HEADERS)
                 .put(ThemisContractV2.getAuthorizationHeader(apiToken))
@@ -93,28 +81,16 @@ public class DownloadFile {
                             return Single.just(Uri.parse(s));
                         }
                     }
-                });
+                })
+                .delay(3, TimeUnit.SECONDS);
     }
 
     public static Single<File> downloadFile(@NonNull final Uri remoteUri, @NonNull final File saveTo) {
-        return Single.create(new Single.OnSubscribe<File>() {
+        return Single.defer(new Callable<Single<File>>() {
             @Override
-            public void call(SingleSubscriber<? super File> singleSubscriber) {
-                // TODO download the file at remoteUri
-//                if (saveTo.exists() && saveTo.isFile()) {
-//                    singleSubscriber.onSuccess(saveTo);
-//                } else {
-//                    singleSubscriber.onError(new Throwable("" /* TODO throw real error */));
-//                }
-                try {
-                    Thread.sleep(3000L);
-                    singleSubscriber.onSuccess(saveTo);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    singleSubscriber.onError(e);
-                }
+            public Single<File> call() throws Exception {
+                return Single.just(saveTo);
             }
-        });
+        }).delay(5, TimeUnit.SECONDS);
     }
-
 }

@@ -2,8 +2,11 @@ package com.pissiphany.matterexplorer.di.module;
 
 import android.app.Activity;
 
+import com.pissiphany.matterexplorer.rx.RxMainActivityContainer;
+
 import dagger.Module;
 import dagger.Provides;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by kierse on 15-10-04.
@@ -19,5 +22,15 @@ public class ActivityModule {
     @Provides
     Activity provideActivity() {
         return mActivity;
+    }
+
+    @Provides
+    RxMainActivityContainer providesRxMainActivityContainer() {
+        return new RxMainActivityContainer();
+    }
+
+    @Provides
+    CompositeSubscription providesCompositeSubscription() {
+        return new CompositeSubscription();
     }
 }
