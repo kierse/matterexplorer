@@ -4,10 +4,10 @@ import android.app.Application;
 import android.net.Uri;
 
 import com.pissiphany.matterexplorer.di.HasComponent;
-import com.pissiphany.matterexplorer.di.component.ApplicationComponent;
-import com.pissiphany.matterexplorer.di.component.DaggerApplicationComponent;
-import com.pissiphany.matterexplorer.di.module.ApplicationModule;
-import com.pissiphany.matterexplorer.network.NetworkEventHandler;
+import com.pissiphany.matterexplorer.view.ui.ApplicationComponent;
+import com.pissiphany.matterexplorer.view.ui.ApplicationModule;
+import com.pissiphany.matterexplorer.model.network.NetworkEventHandler;
+import com.pissiphany.matterexplorer.view.ui.DaggerApplicationComponent;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
