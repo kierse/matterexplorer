@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.pissiphany.matterexplorer.model.db.DatabaseHelper;
@@ -76,7 +78,7 @@ public class MatterExplorerContentProvider extends ContentProvider {
     }
 
     @Override
-    public int bulkInsert(Uri uri, ContentValues[] values) {
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
         int count = 0;
         String table = getTable(uri);
 
@@ -97,8 +99,9 @@ public class MatterExplorerContentProvider extends ContentProvider {
         return count;
     }
 
+    @Nullable
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
         String table = getTable(uri);
         if (table != null) {
             long rowId = upsert(table, values);
@@ -116,7 +119,12 @@ public class MatterExplorerContentProvider extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    public int update(
+            @NonNull Uri uri,
+            @Nullable ContentValues values,
+            @Nullable String selection,
+            @NonNull String[] selectionArgs
+    ) {
         SelectionBuilder builder = new SelectionBuilder();
         builder.add(selection, selectionArgs);
 
